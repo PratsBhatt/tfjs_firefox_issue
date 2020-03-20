@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.1/dist/tf.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<label for="avatar">Choose a Model:</label>
+
+  <input type="file"
+         id="upload-json" name="model" multiple="multiple">
+
+  <label for="avatar">Choose weights for the model:</label>
+
+  <input type="file"
+         id="upload-weights" name="weights" multiple="multiple">
+
+  <button onclick="testFiles()"> upload </button>
+</body>
+</html>
+
+<script>
+    async function testFiles() {
+    console.log('is it getting called');
+    const uploadJSONInput = document.getElementById('upload-json');
+    const uploadWeightsInput = document.getElementById('upload-weights');
+    model = await tf.loadLayersModel(tf.io.browserFiles(
+        [uploadJSONInput.files[0], uploadWeightsInput.files[0], uploadWeightsInput.files[1],
+            uploadWeightsInput.files[2], uploadWeightsInput.files[3], uploadWeightsInput.files[4]]));
+
+    // saves the model
+    const saveResults = await model.save('indexeddb://less_vocab-0');
+    //tf.dispose();
+}
+</script>
